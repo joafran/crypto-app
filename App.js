@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image } from "react-native";
 import Form from './components/Form';
 import Header from './components/Header';
+import Quotation from './components/Quotation';
 
 const App =() => {
   const [coin, setCoin] = useState("");
   const [crypto, setCrypto] = useState("");
   const [ApiQuery, setApiQuery] = useState(false);
+  const [response, setResponse] = useState({});
 
   useEffect(() => {
     const quoteCryptocurrency = async () => {
@@ -16,6 +18,7 @@ const App =() => {
         const result = await axios.get(url);
         console.log(result.data.DISPLAY)
         setApiQuery(false);
+        setResponse(result.data.DISPLAY[crypto][coin]);
       }
     }
     quoteCryptocurrency();
@@ -36,7 +39,7 @@ const App =() => {
           setCrypto={setCrypto}
           setApiQuery={setApiQuery}
         />
-
+        <Quotation response={response}/>
       </View>
     </>
     );
