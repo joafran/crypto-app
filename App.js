@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, ActivityIndicator } from "react-native";
 import Form from './components/Form';
 import Header from './components/Header';
 import Quotation from './components/Quotation';
@@ -10,15 +10,20 @@ const App =() => {
   const [crypto, setCrypto] = useState("");
   const [ApiQuery, setApiQuery] = useState(false);
   const [response, setResponse] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const quoteCryptocurrency = async () => {
       if(ApiQuery) {
         const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${crypto}&tsyms=${coin}`
         const result = await axios.get(url);
-        console.log(result.data.DISPLAY)
-        setApiQuery(false);
-        setResponse(result.data.DISPLAY[crypto][coin]);
+        setLoading(true);
+        
+        setTimeout(() => {
+          setResponse(result.data.DISPLAY[crypto][coin]);
+          setApiQuery(false);
+          setLoading(false);
+        }, 3000);
       }
     }
     quoteCryptocurrency();
@@ -26,22 +31,26 @@ const App =() => {
 
   return (
     <>
-      <Header />
-      <Image
-        testID="image"
-        style={styles.image} 
-        source={require('./assets/cryptomonedas.png')}
-      />
-      <View style={styles.content}>
-        <Form 
-          coin={coin}
-          crypto={crypto}
-          setCoin={setCoin}
-          setCrypto={setCrypto}
-          setApiQuery={setApiQuery}
+      <ScrollView>
+        <Header />
+        <Image
+          testID="image"
+          style={styles.image} 
+          source={require('./assets/cryptomonedas.png')}
         />
-        <Quotation response={response}/>
-      </View>
+        <View style={styles.content}>
+          <Form 
+            coin={coin}
+            crypto={crypto}
+            setCoin={setCoin}
+            setCrypto={setCrypto}
+            setApiQuery={setApiQuery}
+          />
+        </View>
+        <View>
+          {loading ? <ActivityIndicator size="large" color="#00acee"/> : <Quotation response={response}/>}
+        </View>
+      </ScrollView>
     </>
     );
 };
