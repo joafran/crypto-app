@@ -1,10 +1,19 @@
-import React from 'react';
-import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Animated } from "react-native";
 
 const Quotation = ({response}) => {
     if(Object.keys(response).length === 0) return null;
+
+    const [ animation ] = useState(new Animated.Value(0) );
+    useEffect(() => {
+        Animated.timing(animation, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true
+        }).start()
+    }, [])
     return (
-        <View style={styles.result}>
+        <Animated.View style={[styles.result, {opacity: animation}]}>
             <Text style={[styles.text, styles.price]}>
                 <Text style={styles.span}>{response.PRICE}</Text>
             </Text>
@@ -20,7 +29,7 @@ const Quotation = ({response}) => {
             <Text style={styles.text}>  Last Update: {' '}
                 <Text style={styles.span}>{response.LASTUPDATE}</Text>
             </Text>
-        </View>
+        </Animated.View>
     );
 };
 
