@@ -56,13 +56,15 @@ const Form = ({coin, crypto, setCoin, setCrypto, setApiQuery}) => {
             
             <Text style={styles.label}>Cryptocurrency</Text>
             <Picker
+                testID="select-picker"
                 selectedValue={crypto}
                 onValueChange={ crypt => handleCrypto(crypt)}
             >
                 <Picker.Item label="- Select Item -" value="" />
                 {
                     cryptos ? cryptos.map( crypt => (
-                        <Picker.Item 
+                        <Picker.Item
+                        testID="crypto-item" 
                         key={crypt.CoinInfo.Id} 
                         label={crypt.CoinInfo.FullName} 
                         value={crypt.CoinInfo.Name} 

@@ -28,6 +28,7 @@ const App =() => {
     <>
       <Header />
       <Image
+        testID="image"
         style={styles.image} 
         source={require('./assets/cryptomonedas.png')}
       />
