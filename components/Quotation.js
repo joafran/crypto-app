@@ -15,7 +15,7 @@ const Quotation = ({response}) => {
                 <Text style={styles.span}>{response.LOWDAY}</Text>
             </Text>
             <Text style={styles.text}>  Variation last 24 hours: {' '}
-                <Text style={styles.span}>{response.PRICE}</Text>
+                <Text style={styles.span}>{response.CHANGEPCT24HOUR}</Text>
             </Text>
             <Text style={styles.text}>  Last Update: {' '}
                 <Text style={styles.span}>{response.LASTUPDATE}</Text>
